@@ -153,7 +153,7 @@ def performance_on_categorical_slice(
         slice_value = slice_value
     )
     
-    # Get inference off of processed features
+    # Get the predictions for the slice
     preds = inference(model, X_slice)
 
     # Get model metrics from slice features and corresponding labels
