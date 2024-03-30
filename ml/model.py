@@ -1,8 +1,10 @@
 import pickle
+import pandas as pd
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
+
 
 
 # Optional: implement hyperparameter tuning.
@@ -70,7 +72,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : model returned in def train_model
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -79,8 +81,10 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    # TODO: implement the function
-    pass
+
+    preds = model.predict(X)
+
+    return preds
 
 def save_model(model, path):
     """ Serializes model to a file.
