@@ -33,7 +33,7 @@ def train_model(X_train, y_train):
     }
 
     # Use a grid search to find the best hyperparameters
-    grid_search = GridSearchCV(estimator = model, param_grid = hyperparameters, cv = 5, scorings = 'accuracy')
+    grid_search = GridSearchCV(estimator = model, param_grid = hyperparameters, cv = 5, scoring = 'accuracy')
     grid_search.fit(X_train, y_train)
 
     # Define the best model from the results
