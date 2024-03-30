@@ -52,7 +52,7 @@ X_test, y_test, _, _ = process_data(
 )
 
 # Use the train_model function to train the model on the training dataset
-model = model_train(X_train, y_train)
+model = train_model(X_train, y_train)
 
 # save the model and the encoder
 model_path = os.path.join(project_path, "model", "model.pkl")
