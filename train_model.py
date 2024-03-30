@@ -21,6 +21,7 @@ data = pd.read_csv(data_path)
 # Split the data to have a train dataset and a test dataset
 # Stratifying on education since it has a significant correlation to the target variable
 train, test = train_test_split(data, test_size=0.20, random_state=42, stratify=data['education-num'])
+print("Data has been split for training and testing.")
 
 # DO NOT MODIFY
 cat_features = [
@@ -41,6 +42,7 @@ X_train, y_train, encoder, lb = process_data(
     label='salary',
     training=True
     )
+print("Training data has been processed.")
 
 X_test, y_test, _, _ = process_data(
     test,
@@ -50,23 +52,26 @@ X_test, y_test, _, _ = process_data(
     encoder=encoder,
     lb=lb,
 )
+print("Testing data has been processed.")
 
 # Use the train_model function to train the model on the training dataset
 model = train_model(X_train, y_train)
+print("Model has been trained on the training dataset.")
 
 # save the model and the encoder
 model_path = os.path.join(project_path, "model", "model.pkl")
 save_model(model, model_path)
 encoder_path = os.path.join(project_path, "model", "encoder.pkl")
 save_model(encoder, encoder_path)
+print("Model and encoder saved.")
 
 # load the model
-model = load_model(
-    model_path
-) 
+model = load_model(model_path) 
+print("Model has been loaded.")
 
 # Use the inference function to run the model inferences on the test dataset.
 preds = inference(model, X_test)
+print("Ran model inferences on the test dataset.")
 
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)
