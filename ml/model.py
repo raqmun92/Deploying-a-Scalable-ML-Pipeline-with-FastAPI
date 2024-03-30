@@ -1,5 +1,4 @@
 import pickle
-import pandas as pd
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 from sklearn.ensemble import RandomForestClassifier
@@ -96,13 +95,16 @@ def save_model(model, path):
     path : str
         Path to save pickle file.
     """
-    # TODO: implement the function
-    pass
+    with open (path, 'wb') as file:
+        pickle.dump(model, file)
+    
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
-    # TODO: implement the function
-    pass
+    with open (path, 'rb') as file:
+        loaded_model = pickle.load(file)
+
+    return loaded_model
 
 
 def performance_on_categorical_slice(
