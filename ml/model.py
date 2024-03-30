@@ -1,7 +1,9 @@
 import pickle
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
-# TODO: add necessary import
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
@@ -19,8 +21,26 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
-   # TODO: implement the function
-    pass
+    # Initiate the model
+    model = RandomForestClassifier()
+
+    # Define the hyperparameters for model testing
+    hyperparameters = {
+        'n_estimators': [50, 100, 150, 200]
+        'max_depth': [5, 10, 15, None]
+        'min_samples_split': [2, 5, 10, 20]
+        'min_samples_leaf': [1, 5, 10, 20]
+        'learning_rate': [0.001, 0.01, 0.1, 1.0]
+    }
+
+    # Use a grid search to find the best hyperparameters
+    grid_search = GridSearchCV(estimator = model, param_grid = hyperparameters, cv = 5, scorings = 'accuracy')
+    grid_search.fit(X_train, y_train)
+
+    # Define the best model from the results
+    best_model = grid_search.best_estimator_
+
+    return best_model
 
 
 def compute_model_metrics(y, preds):
