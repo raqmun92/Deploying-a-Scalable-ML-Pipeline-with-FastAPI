@@ -1,7 +1,8 @@
 import pickle
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 
 
@@ -20,15 +21,18 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
+    # Make a base estimator
+    base_estimator = DecisionTreeClassifier()
     # Initiate the model
-    model = RandomForestClassifier()
+    model = AdaBoostClassifier(base_estimator=base_estimator)
 
     # Define the hyperparameters for model testing
     hyperparameters = {
-        'n_estimators': [50, 100, 150],
-        'max_depth': [5, 10, None],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 5, 10]
+        'n_estimators': [50, 100, 200],
+        'learning_rate': [0.01, 0.1, 1.0],
+        'base_estimator__max_depth': [1, 2, 3],
+        'base_estimator__min_samples_split': [2, 5, 10],
+        'base_estimator__min_samples_leaf': [1, 2, 5]
     }
 
     # Use a grid search to find the best hyperparameters
