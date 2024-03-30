@@ -16,7 +16,7 @@ from ml.model import (
 project_path = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
-data = pd.read_csv(datapath)
+data = pd.read_csv(data_path)
 
 # Split the data to have a train dataset and a test dataset
 # Stratifying on education since it has a significant correlation to the target variable
