@@ -25,10 +25,10 @@ def train_model(X_train, y_train):
 
     # Define the hyperparameters for model testing
     hyperparameters = {
-        'n_estimators': [50, 100, 150, 200]
-        'max_depth': [5, 10, 15, None]
-        'min_samples_split': [2, 5, 10, 20]
-        'min_samples_leaf': [1, 5, 10, 20]
+        'n_estimators': [50, 100, 150, 200],
+        'max_depth': [5, 10, 15, None],
+        'min_samples_split': [2, 5, 10, 20],
+        'min_samples_leaf': [1, 5, 10, 20],
         'learning_rate': [0.001, 0.01, 0.1, 1.0]
     }
 
