@@ -28,11 +28,11 @@ def train_model(X_train, y_train):
 
     # Define the hyperparameters for model testing
     hyperparameters = {
-        'n_estimators': [50, 100, 200],
-        'learning_rate': [0.01, 0.1, 1.0],
-        'base_estimator__max_depth': [1, 2, 3],
-        'base_estimator__min_samples_split': [2, 5, 10],
-        'base_estimator__min_samples_leaf': [1, 2, 5]
+        'n_estimators': [50, 100],
+        'learning_rate': [0.1, 1.0],
+        'base_estimator__max_depth': [1, 2],
+        'base_estimator__min_samples_split': [2, 5],
+        'base_estimator__min_samples_leaf': [1, 2]
     }
 
     # Use a grid search to find the best hyperparameters
@@ -144,16 +144,17 @@ def performance_on_categorical_slice(
     fbeta : float
 
     """
+
     # Process the data for the slice
     X_slice, y_slice, _, _ = process_data(
-        data = test,
-        categorical_features = categorical_features,
-        label = label,
-        encoder = encoder,
-        lb = lb,
-        training = False,
-        slice_column = column_name,
-        slice_value = slice_value
+        data,
+        column_name=column_name,
+        slice_value=slice_value,
+        categorical_features=categorical_features,
+        label=label,
+        encoder=encoder,
+        training=False,
+        lb=lb
     )
     
     # Get the predictions for the slice
