@@ -39,6 +39,9 @@ def train_model(X_train, y_train):
     grid_search = GridSearchCV(estimator = model, param_grid = hyperparameters, cv = 5, scoring = 'accuracy')
     grid_search.fit(X_train, y_train)
 
+    # Print best hyperparameters
+    print("Best hyperparameters are:", grid_search.best_params_)
+
     # Define the best model from the results
     best_model = grid_search.best_estimator_
 
