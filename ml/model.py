@@ -5,8 +5,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
 
-
-# Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -133,7 +131,7 @@ def performance_on_categorical_slice(
         Trained sklearn OneHotEncoder, only used if training=False.
     lb : sklearn.preprocessing._label.LabelBinarizer
         Trained sklearn LabelBinarizer, only used if training=False.
-    model : ???
+    model : 
         Model used for the task.
 
     Returns
@@ -143,12 +141,21 @@ def performance_on_categorical_slice(
     fbeta : float
 
     """
-    # TODO: implement the function
+    # Process the data for the slice
     X_slice, y_slice, _, _ = process_data(
-        # your code here
-        # for input data, use data in column given as "column_name", with the slice_value 
-        # use training = False
+        data = data,
+        categorical_features = categorical_features,
+        label = label,
+        encoder = encoder,
+        lb = lb,
+        training = False,
+        slice_column = column_name,
+        slice_value = slice_value
     )
-    preds = # your code here to get prediction on X_slice using the inference function
+    
+    # Get inference off of processed features
+    preds = inference(model, X_slice)
+
+    # Get model metrics from slice features and corresponding labels
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
     return precision, recall, fbeta
