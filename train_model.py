@@ -34,7 +34,7 @@ cat_features = [
     "native-country",
 ]
 
-# TODO: use the process_data function provided to process the data.
+# Use the process_data function provided to process the data.
 X_train, y_train, encoder, lb = process_data(
     train,
     categorical_features=cat_features,
@@ -65,8 +65,8 @@ model = load_model(
     model_path
 ) 
 
-# TODO: use the inference function to run the model inferences on the test dataset.
-preds = # your code here
+# Use the inference function to run the model inferences on the test dataset.
+preds = inference(model, X_test)
 
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)
