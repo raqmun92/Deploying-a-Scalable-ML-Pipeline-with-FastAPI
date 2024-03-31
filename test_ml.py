@@ -7,6 +7,7 @@ from ml.model import (
 )
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
+from sklearn.utils.validation import check_is_fitted
 from sklearn.metrics import precision_score, recall_score, fbeta_score
 
 # Create code for expected output
@@ -29,7 +30,7 @@ def sample_data():
     X, y = make_classification(n_samples=50, n_features=10, n_classes=2, random_state=42)
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
-def test_train_model(sample_data):
+def test_modle_is_fitted(sample_data):
     """
     This test checks if the value returned from the train_model function is not a None value
     """
@@ -39,8 +40,11 @@ def test_train_model(sample_data):
     # Use the sample data in the train_model definition
     model = train_model(X_train, y_train)
 
+    # Check if the model is fitted
+    check_is_fitted(model)
+
     # Check the models return after inserting the sample data
-    assert model is not None
+    assert hasattr(model, "classes_"), "Model has not been fitted."
 
 
 @pytest.fixture
