@@ -12,87 +12,88 @@ from ml.model import (
     save_model,
     train_model,
 )
+if __name__ == "__main__":
 
-project_path = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(project_path, "data", "census.csv")
-print(data_path)
-data = pd.read_csv(data_path)
+    project_path = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(project_path, "data", "census.csv")
+    print(data_path)
+    data = pd.read_csv(data_path)
 
-# Split the data to have a train dataset and a test dataset
-# Stratifying on education since it has a significant correlation to the target variable
-train, test = train_test_split(data, test_size=0.20, random_state=42, stratify=data['education-num'])
-print("Data has been split for training and testing.")
+    # Split the data to have a train dataset and a test dataset
+    # Stratifying on education since it has a significant correlation to the target variable
+    train, test = train_test_split(data, test_size=0.20, random_state=42, stratify=data['education-num'])
+    print("Data has been split for training and testing.")
 
-# DO NOT MODIFY
-cat_features = [
-    "workclass",
-    "education",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex",
-    "native-country",
-]
+    # DO NOT MODIFY
+    cat_features = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+    ]
 
-# Use the process_data function provided to process the data.
-X_train, y_train, encoder, lb = process_data(
-    train,
-    categorical_features=cat_features,
-    label='salary',
-    training=True
+    # Use the process_data function provided to process the data.
+    X_train, y_train, encoder, lb = process_data(
+        train,
+        categorical_features=cat_features,
+        label='salary',
+        training=True
     )
-print("Training data has been processed.")
+    print("Training data has been processed.")
 
-X_test, y_test, _, _ = process_data(
-    test,
-    categorical_features=cat_features,
-    label="salary",
-    training=False,
-    encoder=encoder,
-    lb=lb,
-)
-print("Testing data has been processed.")
+    X_test, y_test, _, _ = process_data(
+        test,
+        categorical_features=cat_features,
+        label="salary",
+        training=False,
+        encoder=encoder,
+        lb=lb,
+    )
+    print("Testing data has been processed.")
 
-# Use the train_model function to train the model on the training dataset
-model = train_model(X_train, y_train)
-print("Model has been trained on the training dataset.")
+    # Use the train_model function to train the model on the training dataset
+    model = train_model(X_train, y_train)
+    print("Model has been trained on the training dataset.")
 
-# save the model and the encoder
-model_path = os.path.join(project_path, "model", "model.pkl")
-save_model(model, model_path)
-encoder_path = os.path.join(project_path, "model", "encoder.pkl")
-save_model(encoder, encoder_path)
-print("Model and encoder saved.")
+    # save the model and the encoder
+    model_path = os.path.join(project_path, "model", "model.pkl")
+    save_model(model, model_path)
+    encoder_path = os.path.join(project_path, "model", "encoder.pkl")
+    save_model(encoder, encoder_path)
+    print("Model and encoder saved.")
 
-# load the model
-model = load_model(model_path) 
-print("Model has been loaded.")
+    # load the model
+    model = load_model(model_path) 
+    print("Model has been loaded.")
 
-# Use the inference function to run the model inferences on the test dataset.
-preds = inference(model, X_test)
-print("Ran model inferences on the test dataset.")
+    # Use the inference function to run the model inferences on the test dataset.
+    preds = inference(model, X_test)
+    print("Ran model inferences on the test dataset.")
 
-# Calculate and print the metrics
-p, r, fb = compute_model_metrics(y_test, preds)
-print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
+    # Calculate and print the metrics
+    p, r, fb = compute_model_metrics(y_test, preds)
+    print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
 
-# TODO: compute the performance on model slices using the performance_on_categorical_slice function
-# iterate through the categorical features
-for col in cat_features:
-    # iterate through the unique values in one categorical feature
-    for slicevalue in sorted(test[col].unique()):
-        count = test[test[col] == slicevalue].shape[0]
-        p, r, fb = performance_on_categorical_slice(
-            data=test,
-            column_name=col,
-            slice_value=slicevalue,
-            categorical_features=cat_features,
-            label="salary",
-            encoder=encoder,
-            lb=lb,
-            model=model
-        )
-        with open("slice_output.txt", "a") as f:
-            print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
-            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
+    # Compute the performance on model slices using the performance_on_categorical_slice function
+    # iterate through the categorical features
+    for col in cat_features:
+        # iterate through the unique values in one categorical feature
+        for slicevalue in sorted(test[col].unique()):
+            count = test[test[col] == slicevalue].shape[0]
+            p, r, fb = performance_on_categorical_slice(
+                data=test,
+                column_name=col,
+                slice_value=slicevalue,
+                categorical_features=cat_features,
+                label="salary",
+                encoder=encoder,
+                lb=lb,
+                model=model
+            )
+            with open("slice_output.txt", "a") as f:
+                print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
+                print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
