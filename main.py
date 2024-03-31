@@ -1,4 +1,5 @@
 import os
+import pickle
 
 import pandas as pd
 from fastapi import FastAPI
@@ -34,6 +35,14 @@ model = load_model(path)
 
 # Instantiate the app
 app = FastAPI()
+
+# Load artifact on application startup
+
+@app.on_event("startup")
+async def startup_event():
+    global model, encoder
+    model = pickle.load(open("./model/model.pkl", "rb"))
+    encoder = pickle.load(open("./model/encoder.pkl", "rb"))
 
 # Create a GET on the root giving a welcome message
 @app.get("/")
